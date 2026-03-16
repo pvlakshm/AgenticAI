@@ -3,9 +3,7 @@ import ollama
 
 MODEL = "gemma3:1b"
 
-
 def ask_llm(role, task, input_text, output_format):
-
     prompt = f"""
 You are a professional {role}.
 
@@ -23,7 +21,6 @@ Rules:
 - Do not add explanations
 - Do not add extra sections
 """
-
     response = ollama.chat(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
@@ -34,7 +31,6 @@ Rules:
 
 
 def generate_epic(requirement):
-
     return ask_llm(
         role="Product Manager",
         task="Create exactly ONE epic from the requirement and define business-level acceptance criteria.",
@@ -53,9 +49,7 @@ Acceptance Criteria:
 """,
     )
 
-
 def generate_features(epic):
-
     return ask_llm(
         role="Product Manager",
         task="Break the epic into 3 to 5 features. Each feature must have acceptance criteria.",
@@ -77,9 +71,7 @@ Acceptance Criteria:
 """,
     )
 
-
 def generate_stories(features):
-
     return ask_llm(
         role="Product Owner",
         task="Create user stories for the features with acceptance criteria.",
@@ -107,9 +99,7 @@ Acceptance Criteria:
 """,
     )
 
-
 def generate_tests(stories):
-
     return ask_llm(
         role="QA Engineer",
         task="Generate one test case per user story.",
@@ -128,9 +118,7 @@ Expected Result:
 """,
     )
 
-
 def main():
-
     if len(sys.argv) < 2:
         print("Usage: python backlog_gen.py 'requirement'")
         return
@@ -160,7 +148,6 @@ def main():
     print("\nTest Cases")
     print("----------")
     print(tests)
-
 
 if __name__ == "__main__":
     main()
