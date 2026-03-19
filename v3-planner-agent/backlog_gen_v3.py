@@ -82,16 +82,31 @@ def generate_features(state):
     state["features"] = ask_llm("features", state["epic"])
     return state
 
+# Map the strings from the Planner to our functions
+TASK_MAP = {
+    "epic": generate_epic,
+    "features": generate_features
+}
+
 # --- The Planner ---
 
 def run_planner(state):
     print("Planning workflow...")
     plan_raw = ask_llm("planner", state["requirement"])
 
-    # Convert "Plan: epic, features" into ["epic", "features"]
+    valid_steps = list(TASK_MAP.keys())  # ["epic", "features"]
     steps = [s.strip() for s in plan_raw.replace("Plan:", "").split(",")]
+    steps = [s for s in steps if s in valid_steps]
+
+    if not steps:
+        raise ValueError(
+            f"Planner returned invalid output: '{plan_raw}'\n"
+            f"Expected a plan containing one or more of: {valid_steps}"
+        )
+
     state["plan"] = steps
     return state
+
 
 # --- Execution ---
 
@@ -110,22 +125,16 @@ def main():
         "features": None
     }
 
-    # Map the strings from the Planner to our functions
-    task_map = {
-        "epic": generate_epic,
-        "features": generate_features
-    }
-
     print(f"\nProcessing Requirement: {state['requirement']}")
 
-    # 1. Let the Manager decide what to do
+    # 1. Let the Planner decide what to do
     state = run_planner(state)
     print(f"Confirmed Plan: {state['plan']}")
 
     # 2. Execute the plan dynamically
     for step in state["plan"]:
-        if step in task_map:
-            state = task_map[step](state)
+        if step in TASK_MAP:
+            state = TASK_MAP[step](state)
 
     # 3. Output results
     for step in state["plan"]:
