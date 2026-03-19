@@ -62,39 +62,30 @@ Rules:
 
 # --- Specialized Functions ---
 
-def generate_epic(state):
-    state["epic"] = ask_llm("epic", state["requirement"])
-    return state
+def generate_epic(requirement):
+    return ask_llm("epic", requirement)
 
-def generate_features(state):
-    state["features"] = ask_llm("features", state["epic"])
-    return state
+def generate_features(epic):
+    return ask_llm("features", epic)
 
 # --- Execution ---
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python backlog_gen.py 'requirement'")
+        print("Usage: python backlog_gen_v1.py 'requirement'")
         return
 
     requirement = sys.argv[1]
 
-    # Initialize the Shared State
-    state = {
-        "requirement": sys.argv[1],
-        "epic": None,
-        "features": None
-    }
-
-    print(f"\nProcessing Requirement: {state["requirement"]}")
-
-    # Run the sequence
-    state = generate_epic(state)
-    state = generate_features(state)
+    print(f"\nProcessing Requirement: {requirement}")
+   
+     # Run the sequence
+    epic = generate_epic(requirement)
+    features = generate_features(epic)
 
     # Final Output
-    print(f"\nEPIC:\n{state["epic"]}")
-    print(f"\nFEATURES:\n{state["features"]}")
+    print(f"\n[EPIC]\n{epic}")
+    print(f"\n[FEATURES]\n{features}")
 
 if __name__ == "__main__":
     main()
