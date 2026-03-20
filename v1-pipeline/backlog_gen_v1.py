@@ -70,9 +70,11 @@ Rules:
 # --- Specialized Functions ---
 
 def generate_epic(requirement):
+    print("Generating epic...")
     return ask_llm("epic", requirement)
 
 def generate_features(epic):
+    print("Generating features...")
     return ask_llm("features", epic)
 
 # --- Execution ---
@@ -85,7 +87,7 @@ def main():
     requirement = sys.argv[1]
 
     print(f"\nProcessing Requirement: {requirement}")
-   
+
      # Run the sequence
     epic = generate_epic(requirement)
     features = generate_features(epic)

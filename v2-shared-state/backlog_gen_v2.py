@@ -41,7 +41,7 @@ Acceptance Criteria:
 
 def ask_llm(template_key, input_text):
     config = TEMPLATES[template_key]
-    
+
     prompt = f"""
 You are a professional {config['role']}.
 
@@ -70,10 +70,12 @@ Rules:
 # --- Specialized Functions ---
 
 def generate_epic(state):
+    print("Generating epic...")
     state["epic"] = ask_llm("epic", state["requirement"])
     return state
 
 def generate_features(state):
+    print("Generating features...")
     state["features"] = ask_llm("features", state["epic"])
     return state
 
@@ -88,7 +90,7 @@ def main():
 
     # Initialize the Shared State
     state = {
-        "requirement": sys.argv[1],
+        "requirement": requirement,
         "epic": None,
         "features": None
     }
