@@ -5,11 +5,6 @@ MODEL = "gemma3:1b"
 
 # --- Prompt Templates Configuration ---
 TEMPLATES = {
-    "planner": {
-        "role": "Product Manager",
-        "task": "Analyze the user requirement and determine which backlog artifacts need to be generated. You can choose from: epic, features.",
-        "format": "Plan: <comma-separated list of steps, e.g., epic, features>"
-    },
     "epic": {
         "role": "Product Manager",
         "task": "Create exactly ONE epic from the requirement and define business-level acceptance criteria.",
@@ -41,6 +36,11 @@ Acceptance Criteria:
 - criterion 2
 - criterion 3
 """
+    },
+    "planner": {
+        "role": "Product Manager",
+        "task": "Analyze the user requirement and determine which backlog artifacts need to be generated. You can choose from: epic, features.",
+        "format": "Plan: <comma-separated list of steps, e.g., epic, features>"
     },
 }
 

@@ -5,11 +5,6 @@ MODEL = "qwen3-coder:480b-cloud"
 
 # --- Prompt Templates Configuration ---
 TEMPLATES = {
-    "planner": {
-        "role": "Product Manager",
-        "task": "Analyze the user requirement and determine which backlog artifacts need to be generated. You can choose from: epic, features.",
-        "format": "Plan: <comma-separated list of steps, e.g., epic, features>"
-    },
     "epic": {
         "role": "Product Manager",
         "task": "Create exactly ONE epic from the requirement and define business-level acceptance criteria.",
@@ -41,6 +36,11 @@ Acceptance Criteria:
 - criterion 3
 """
     },
+    "planner": {
+        "role": "Product Manager",
+        "task": "Analyze the user requirement and determine which backlog artifacts need to be generated. You can choose from: epic, features.",
+        "format": "Plan: <comma-separated list of steps, e.g., epic, features>"
+    },
     "critic": {
         "role": "Senior Product Manager and Quality Reviewer",
         "task": (
@@ -56,26 +56,15 @@ Acceptance Criteria:
         "task": "Revise the backlog artifact based on the critic's feedback. Apply every requested change while keeping the same output format.",
         "format": "<same format as the original artifact>"
     },
-    # "global_critic": {
-    #     "role": "Principal Product Manager and Quality Reviewer",
-    #     "task": (
-    #         "Review the FULL backlog (epic + features) holistically against the original requirement. "
-    #         "Check that the features align with the epic, and that the epic and features together fully cover the requirement. "
-    #         "If the full backlog is acceptable, respond with exactly: APPROVED. "
-    #         "If the features do not align with the epic or are insufficient, respond with exactly: REDO: features. "
-    #         "If the epic itself is the problem, respond with exactly: REDO: epic. "
-    #         "Do not explain. Respond with one line only."
-    #     ),
-    #     "format": "REDO: epic  OR  REDO: features OR APPROVED"
-    # },
     "global_critic": {
         "role": "Senior Product Manager and Quality Reviewer",
         "task": (
             "Review the FULL backlog (epic + features) holistically against the original requirement. "
             "If the epic is missing or malformed, respond with exactly: REDO: epic. "
             "If the epic has fewer than 3 acceptance criteria, respond with exactly: REDO: epic. "
+            "If there are fewer than 3 features, respond with exactly: REDO: features. "
             "If there are more than 3 features, respond with exactly: REDO: features. "
-            "If any of the features has fewer than 3 acceptance criteria, respond with exactly REDO: features. "
+            "If any of the features has fewer than 3 acceptance criteria, respond with exactly: REDO: features. "
             "Otherwise, respond with exactly: APPROVED. "
             "Do not explain. Respond with one line only."
         ),
