@@ -93,6 +93,7 @@ def main():
     features = generate_features(epic)
 
     # Final Output
+    print("\n" + "=" * 60)
     print(f"\n[EPIC]\n{epic}")
     print(f"\n[FEATURES]\n{features}")
 

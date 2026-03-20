@@ -102,6 +102,7 @@ def main():
     state = generate_features(state)
 
     # Final Output
+    print("\n" + "=" * 60)
     print(f"\nEPIC:\n{state['epic']}")
     print(f"\nFEATURES:\n{state['features']}")
 

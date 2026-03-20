@@ -199,6 +199,7 @@ def main():
             state = TASK_MAP[step](state)
 
     # Final Output
+    print("\n" + "=" * 60)
     for step in state["plan"]:
         print(f"\n[{step.upper()}]")
         print(state.get(step, "Not generated"))
