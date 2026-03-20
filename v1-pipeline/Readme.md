@@ -1,40 +1,25 @@
-# v1 - Scripted Pipeline
-This version implements a simple backlog generator using role-based LLM prompts.
+# v1-pipeline
 
-## 1. Fixed CLI interface
-python backlog_gen.py "requirement"
+## What this version does
+The simplest possible backlog generator. Takes a requirement string, generates an Epic, then passes the Epic to generate 3 Features. Each step is a plain function call.
 
-## 2. Python as orchestrator
-Pipeline:
-Requirement
-Product Manager -> Epic
-Product Manager -> Features
-<!-- Product Owner -> User Stories -->
-<!-- QA Engineer -> Test Cases -->
+## What's new
+- Everything. This is the baseline.
+- `ask_llm()` - the core LLM call, driven by prompt templates
+- `generate_epic()` and `generate_features()` - two specialized functions
+- A hardcoded sequential pipeline: epic -> features
 
-### Controlled here:
-epic = generate_epic(requirement)
-features = generate_features(epic)
-<!-- stories = generate_stories(features)
-tests = generate_tests(stories) -->
+## Key concepts
+- Prompt templates (`TEMPLATES` dict)
+- Sequential pipeline
+- LLM chaining (output of one step feeds the next)
 
-## 3. Role-based pseudo agents
-Roles are explicit in prompts:
-role="Product Manager"
-<!-- role="Product Owner"
-role="QA Engineer" -->
+## Limitations
+- No shared state - outputs are passed as raw strings between functions
+- No dynamic planning - the sequence is always epic → features
+- No quality control - whatever the LLM generates is accepted as-is
 
-## 4. Acceptance criteria defined at every level
-Prompts require acceptance criteria. For tests it is implicit via expected result
-
-## 5. Deterministic prompts (important for small models)
-Prompt structure:
-Task
-INPUT
-OUTPUT FORMAT
-Rules
-
-Works well with Gemma 3 running via Ollama.
-
-## 6. Keeps results somewhat consistent
-options={"temperature": 0.2}
+## How to run
+```bash
+python backlog_gen_v1.py "Grandma has a car and wants to know when she should refill fuel"
+```
