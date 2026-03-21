@@ -4,6 +4,18 @@ An agentic AI product backlog generator in six progressive versions. Each versio
 
 ---
 
+## $0. No API Key. No Credit Card. No Surprises.
+
+This project is intentionally $0. No OpenAI API key, no cloud credits, no free tiers that quietly start charging when you cross a token limit. If the fear of cloud costs has been stopping you from learning agentic AI - it doesn't have to.
+
+---
+
+## Approach
+
+This project is loosely inspired by Niklaus Wirth's classic "Program Development by Stepwise Refinement" - the idea that you build understanding by starting simple and adding one concept at a time. It works just as well for agentic AI as it did for structured programming. In this case, each version introduces exactly one new agentic pattern, building on the previous, until the system is fully autonomous.
+
+---
+
 ## What This Project Does
 
 Given a plain-English product requirement, the system generates:
