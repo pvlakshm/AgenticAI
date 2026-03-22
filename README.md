@@ -126,26 +126,89 @@ Watch for the `[Global Critic] Verdict:` line after both agents complete. This i
 
 ---
 
+## Testing
+
+### Install test dependencies
+```bash
+pip install pytest pytest-cov
+```
+
+### Run all tests from the repo root
+```bash
+pytest -v
+```
+
+### Run tests for a specific version
+```bash
+pytest v4-critic-loop/test_backlog_gen_v4.py -v
+```
+
+### Run all tests with coverage
+```bash
+pytest --cov=. --cov-report=term-missing
+```
+
+### Philosophy
+The tests mock `ollama` entirely - no real LLM calls are made. This keeps tests fast, deterministic, and free. The principle is:
+
+> **Mock the LLM. Test the orchestration.**
+
+The tests verify that your agents, planner, critic loop, and coordinator behave correctly regardless of what any LLM says. This is the standard approach used in production agentic systems.
+
+### Unit tests vs Evals
+Unit tests and evals are complementary but distinct:
+
+| | Unit Tests | Evals |
+|--|-----------|-------|
+| LLM calls | Mocked | Real |
+| Speed | Milliseconds | Seconds |
+| Cost | $0 | Tokens consumed |
+| Deterministic | Yes | No |
+| What they test | Orchestration logic | LLM output quality |
+| Run frequency | Every commit | Periodically |
+
+The tests in this repo are unit tests. If you want to verify that your prompts actually produce good epics and features from a real LLM, that is an eval - a separate concern covered in a future version.
+
+### Test complexity mirrors implementation complexity
+Each version's tests cover only the patterns introduced in that version:
+
+| Version | Key things tested |
+|---------|------------------|
+| v1 | `ask_llm`, pipeline call order, response stripping |
+| v2 | State read/write, state flows through pipeline |
+| v3 | Planner parsing, `TASK_MAP` routing, invalid plan handling |
+| v4 | Critic loop approval, revision, `MAX_REVISIONS` ceiling |
+| v5 | Agent class interfaces, `AGENT_MAP` routing, lowercase normalization |
+| v6 | `_parse_redo` routing, global critic input, selective re-execution |
+
+---
+
 ## Project Structure
 
 ```
 README.md
 v1-pipeline/
     backlog_gen_v1.py
+    test_backlog_gen_v1.py
     Readme.md
 v2-shared-state/
     backlog_gen_v2.py
+    test_backlog_gen_v2.py
     Readme.md
-v3=planner-agent/
+v3-planner-agent/
     backlog_gen_v3.py
+    test_backlog_gen_v3.py
     Readme.md
 v4-critic-loop/
-    backlog_gen_v3.py
+    backlog_gen_v4.py
+    test_backlog_gen_v4.py
     Readme.md
-v5-multi-agent
-    backlog_gen_v3.py
+v5-multi-agent/
+    backlog_gen_v5.py
+    test_backlog_gen_v5.py
     Readme.md
-v6-autonomous
-    backlog_gen_v3.py
+v6-autonomous/
+    backlog_gen_v6.py
+    test_backlog_gen_v6.py
     Readme.md
 ```
