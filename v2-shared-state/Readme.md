@@ -53,6 +53,6 @@ python -m pytest test_backlog_gen_v2.py --cov=backlog_gen_v2 --cov-report=term-m
 - The pipeline makes exactly 2 LLM calls
 
 ### What the tests do NOT cover
-- LLM output quality — no real LLM calls are made; `ollama` is mocked
-- Prompt effectiveness — use evals for that
-- The `main()` function — CLI argument handling is not unit tested
+- LLM output quality - no real LLM calls are made; `ollama` is mocked
+- Prompt effectiveness - use evals for that
+- The `main()` function - CLI argument handling is not unit tested
