@@ -1,57 +1,25 @@
-# v1-pipeline
+# v1 - Sequential Pipeline (Single File)
 
-## What this version does
-The simplest possible backlog generator. Takes a requirement string, generates an Epic, then passes the Epic to generate 3 Features. Each step is a plain function call.
+## Overview
+This is the simplest form of an agentic system:
+a sequential LLM pipeline.
 
-## What's new
-- Everything. This is the baseline.
-- `ask_llm()` - the core LLM call, driven by prompt templates
-- `generate_epic()` and `generate_features()` - two specialized functions
-- A hardcoded sequential pipeline: epic -> features
+Requirement -> Epic -> Features
 
-## Key concepts
-- Prompt templates (`TEMPLATES` dict)
-- Sequential pipeline
-- LLM chaining (output of one step feeds the next)
+## Key Concepts
+- Prompt templates stored as `.md`
+- Prompt composition (system + task)
+- Sequential LLM calls
+- No shared state
+- No dynamic control flow
 
-## Limitations
-- No shared state - outputs are passed as raw strings between functions
-- No dynamic planning - the sequence is always epic -> features
-- No quality control - whatever the LLM generates is accepted as-is
+## Usage
 
-## How to run
 ```bash
-python backlog_gen_v1.py "Grandma has a car and wants to know when she should refill fuel"
+python pipeline.py "Users should be able to reset passwords"
 ```
 
-## Testing
-
-### Install dependencies
+### Run all tests from the root folder
 ```bash
-pip install pytest pytest-cov
+python -m pytest -v
 ```
-
-### Run tests
-```bash
-python -m pytest test_backlog_gen_v1.py -v
-```
-
-### Run with coverage
-```bash
-python -m pytest test_backlog_gen_v1.py --cov=backlog_gen_v1 --cov-report=term-missing
-```
-
-### What the tests cover
-- `ask_llm` calls `ollama.chat` with the configured `MODEL`
-- `ask_llm` includes the template role, task, and input text in the prompt
-- `ask_llm` strips whitespace from the LLM response
-- `ask_llm` raises `KeyError` for an unknown template key
-- `generate_epic` passes the requirement to the LLM and returns the response
-- `generate_features` passes the epic to the LLM and returns the response
-- The pipeline makes exactly 2 LLM calls in the correct order (epic then features)
-- The epic output is passed as input to the features step
-
-### What the tests do NOT cover
-- LLM output quality - no real LLM calls are made; `ollama` is mocked
-- Prompt effectiveness - use evals for that
-- The `main()` function - CLI argument handling is not unit tested
