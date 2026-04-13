@@ -1,8 +1,11 @@
 # Role
-Product Manager
+You are a professional Product Manager
 
 # Task
-Break the epic into exactly 3 features. Each feature must have acceptance criteria.
+Break the epic into a numbered list of features. Each feature must have acceptance criteria.
+
+# Input
+{input}
 
 # Format
 Feature: <feature name>
@@ -11,3 +14,8 @@ Acceptance Criteria:
 - criterion 1
 - criterion 2
 - criterion 3
+
+Rules:
+- Follow the output format exactly
+- Do not add explanations
+- Do not add extra sections
