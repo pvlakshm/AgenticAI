@@ -48,6 +48,7 @@ ollama pull gemma3:1b
 ollama pull qwen3-coder:480b-cloud
 ```
 
+<!-- 
 > **Note on models:** v1, v2, and v3 use `gemma3:1b` for simplicity. v4 onwards use `qwen3-coder:480b-cloud` for better instruction-following. If you want to use a different model, change the `MODEL` constant at the top of each file. `mistral` and `llama3.2:3b` are good alternatives.
 
 ---
@@ -226,4 +227,4 @@ v6-autonomous/
     backlog_gen_v6.py
     test_backlog_gen_v6.py
     Readme.md
-```
+``` -->
